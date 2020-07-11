@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
 import 'imports.dart';
+import 'dart:math' as math;
 
 class FileUploadPage extends StatelessWidget {
   @override
@@ -23,7 +22,7 @@ class FileUploadPage extends StatelessWidget {
       ),
 
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.attach_file),
+        child: Transform.rotate(child: Icon(Icons.attach_file), angle: math.pi/4,),
 
         onPressed: () async {
           File file = await FilePicker.getFile(

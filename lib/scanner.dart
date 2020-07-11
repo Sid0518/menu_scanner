@@ -20,7 +20,7 @@ class ScannerPage extends StatelessWidget {
       ),
 
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.camera_alt),
+        child: Icon(Icons.camera),
 
         onPressed: () async {
           var scan = await BarcodeScanner.scan();
