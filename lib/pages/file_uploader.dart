@@ -4,6 +4,11 @@ import 'dart:math' as math;
 class FileUploadPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    /*
+      The ChangeNotifierProvider from main.dart will tell
+      this user object below, 'Hey, you have been changed,
+      redraw this page'
+    */
     User user = Provider.of<User>(context);
 
     return Scaffold(
@@ -28,6 +33,17 @@ class FileUploadPage extends StatelessWidget {
         ),
         
         onPressed: () async {
+          /*
+            -> The line below will first show a file picker page
+            on the app, let the user select a file, and return
+            this file to us
+            -> Then it will upload the file to Firebase
+            -> The entire time that the file is being uploaded,
+               the user is shown a CircularProgressIndicator
+
+            (FilePicker is part of the file_picker package, not 
+             available by default in Flutter)
+          */
           String url = 
             await showLoadingDialog(
               context, 
@@ -39,6 +55,14 @@ class FileUploadPage extends StatelessWidget {
               }
             );
           
+          /*
+            Once the file is uploaded, the URL of the
+            newly uploaded file is encoded into a QR Code
+            and displayed to the user in a Dialog box
+
+            (QrImage is part of the qr-flutter package, not 
+             available by default in Flutter)
+          */
           showDialog(
             context: context,
             builder: (context) =>

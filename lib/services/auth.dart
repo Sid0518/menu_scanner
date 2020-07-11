@@ -1,5 +1,9 @@
 import 'package:menu_scanner/imports.dart';
 
+/*
+  There's too much going on in this code to explain
+  Watch https://www.youtube.com/watch?v=mZYuuGAIwe4 for reference
+*/
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();

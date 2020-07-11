@@ -33,6 +33,10 @@ class _SignInPageState extends State<SignInPage> {
         child: Icon(Icons.person),
         
         onPressed: () async {
+          /*
+            Attempt to use FirebaseAuth to prompt the user to login
+            using Google
+          */
           try {
             FirebaseUser firebaseUser = await this.auth.googleSignIn();
             user.firebaseUser = firebaseUser;
