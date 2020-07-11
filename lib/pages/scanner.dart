@@ -1,4 +1,4 @@
-import 'imports.dart';
+import 'package:menu_scanner/imports.dart';
 
 class ScannerPage extends StatelessWidget {
   @override
@@ -6,10 +6,11 @@ class ScannerPage extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(16),
+        
         child: Center(
           child: Text(
             'Tap on the camera icon to scan a QR Code',
-
+            
             style: TextStyle(
               fontSize: 24,
             ),
@@ -21,24 +22,20 @@ class ScannerPage extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.camera),
-
+        
         onPressed: () async {
           var scan = await BarcodeScanner.scan();
           String url = scan.rawContent;
 
-          if(scan.type == ResultType.Barcode) {
-            if(await canLaunch(url))
+          if (scan.type == ResultType.Barcode) {
+            if (await canLaunch(url))
               launch(url);
-
             else
               showDialog(
-                  context: context,
-
-                  child: AlertDialog(
-                    title: Text(
-                        'Invalid QR Code\nDoes not point to a valid URL'
-                    ),
-                  )
+                context: context,
+                child: AlertDialog(
+                  title: Text('Invalid QR Code\nDoes not point to a valid URL'),
+                )
               );
           }
         },
