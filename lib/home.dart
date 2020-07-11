@@ -1,26 +1,41 @@
 import'imports.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    this.tabController = TabController(length: 2, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Menu Scanner'),
-          bottom: TabBar(
-            tabs: [
-              Tab(text: 'SCAN'),
-              Tab(text: 'UPLOAD')
-            ]
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Menu Scanner'),
+        bottom: TabBar(
+          controller: this.tabController,
 
-        body: TabBarView(
-          children: [
-            ScannerPage(),
-            FileUploadPage(),
-          ],
+          tabs: [
+            Tab(text: 'SCAN'),
+            Tab(text: 'UPLOAD')
+          ]
         ),
+      ),
+
+      body: TabBarView(
+        controller: this.tabController,
+
+        children: [
+          ScannerPage(),
+          FileUploadPage(),
+        ],
       ),
     );
   }

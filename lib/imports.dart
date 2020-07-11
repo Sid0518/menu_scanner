@@ -10,3 +10,4 @@ export 'package:file_picker/file_picker.dart';
 // Custom Dart files
 export 'scanner.dart';
 export 'file_uploader.dart';
+export 'home.dart';

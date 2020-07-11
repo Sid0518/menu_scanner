@@ -1,5 +1,5 @@
 import 'imports.dart';
 
 void main() {
-  runApp(MaterialApp(home: FileUploadPage()));
+  runApp(MaterialApp(home: HomePage()));
 }
