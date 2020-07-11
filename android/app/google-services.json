@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "656952499673",
+    "firebase_url": "https://menu-scanner-1ca39.firebaseio.com",
+    "project_id": "menu-scanner-1ca39",
+    "storage_bucket": "menu-scanner-1ca39.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:656952499673:android:81921ac25db53423f18dc8",
+        "android_client_info": {
+          "package_name": "com.example.menu_scanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "656952499673-blismbid0a19dq95g1u6h79bc49cgqcc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb-ert0kO3STlIzCQphutEm2vH5qgpzAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "656952499673-blismbid0a19dq95g1u6h79bc49cgqcc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
