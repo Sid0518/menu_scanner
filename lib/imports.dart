@@ -10,7 +10,7 @@ export 'package:firebase_storage/firebase_storage.dart';
 export 'package:google_sign_in/google_sign_in.dart';
 
 // Dependencies
-export 'package:barcode_scan/barcode_scan.dart';
+export 'package:qrscan/qrscan.dart';
 export 'package:file_picker/file_picker.dart';
 export 'package:qr_flutter/qr_flutter.dart';
 export 'package:url_launcher/url_launcher.dart';

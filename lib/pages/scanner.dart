@@ -1,4 +1,5 @@
 import 'package:menu_scanner/imports.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class ScannerPage extends StatelessWidget {
   @override
@@ -25,17 +26,13 @@ class ScannerPage extends StatelessWidget {
         
         onPressed: () async {
           /*
-            -> BarcodeScanner.scan() is a method defined in the
-            barcode-scan package, which opens a new page with
+            -> scanner.scan() is a method defined in the
+            qrscan package, which opens a new page with
             the user's camera open, and tries to scan a QR Code
-            -> If successful, we can get the string encoded in the
-            QR Code by using the 'rawContent' of the scan object
           */
-          var scan = await BarcodeScanner.scan();
+          String url = await scanner.scan();
 
-          if (scan.type == ResultType.Barcode) {
-            String url = scan.rawContent;
-
+          if (url != null) {
             /*
               canLaunch() and launch() are defined in url_launcher
               package
