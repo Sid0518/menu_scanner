@@ -18,7 +18,7 @@ class _SignInPageState extends State<SignInPage> {
         
         child: Center(
           child: Text(
-            'To upload a file, you must sign in first by tapping the person icon',
+            'Sign-In Page',
             
             style: TextStyle(
               fontSize: 24,
@@ -38,8 +38,8 @@ class _SignInPageState extends State<SignInPage> {
             using Google
           */
           try {
-            FirebaseUser firebaseUser = await this.auth.googleSignIn();
-            user.firebaseUser = firebaseUser;
+            await this.auth.googleSignIn();
+            loginUser(context, this.auth);
           } 
           catch (error) {
             print('Login Failed - $error');

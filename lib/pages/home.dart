@@ -18,22 +18,10 @@ with SingleTickerProviderStateMixin {
   TabController tabController;
   final AuthService auth = AuthService();
 
-  // Use AuthService to get the logged-in user
-  Future<void> login(BuildContext context) async {
-    User user = Provider.of<User>(context, listen: false);
-    FirebaseUser firebaseUser = await this.auth.getUser;
-
-    if (firebaseUser != null && user.firebaseUser == null) {
-      user.firebaseUser = firebaseUser;
-    }
-  }
-
   @override
   void initState() {
     super.initState();
     this.tabController = TabController(length: 2, vsync: this);
-
-    this.login(context);
   }
 
   @override
@@ -46,8 +34,8 @@ with SingleTickerProviderStateMixin {
         bottom: TabBar(
           controller: this.tabController,
           tabs: [
-            Tab(text: 'SCAN'), 
-            Tab(text: 'UPLOAD')
+            Tab(text: 'UPLOAD'), 
+            Tab(text: 'SCAN')
           ]
         ),
       ),
@@ -60,9 +48,78 @@ with SingleTickerProviderStateMixin {
       body: TabBarView(
         controller: this.tabController,
         children: [
+          FileUploadPage(),
           ScannerPage(),
-          user.firebaseUser != null ? FileUploadPage() : SignInPage(),
         ],
+      ),
+
+      drawer: Drawer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+            DrawerHeader(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 20, horizontal: 8
+                    ),
+
+                    child: CircleAvatar(
+                      backgroundImage:
+                        NetworkImage(user.firebaseUser.photoUrl),
+                    ),
+                  ),
+
+                  Text(
+                    user.name,
+                    
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  Text(
+                    user.email,
+                    
+                    style: TextStyle(
+                      color: Colors.black54,
+                    )
+                  )
+                ],
+              ),
+            ),
+            
+            ListTile(
+              leading: Icon(Icons.subdirectory_arrow_left),
+              
+              title: Text(
+                'Log Out',
+                
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              onTap: () async {
+                await this.auth.signOut();
+                user.signOut();
+
+                Navigator.pushReplacement(context, 
+                  MaterialPageRoute(
+                    builder: (context) => 
+                      SignInPage()
+                  )
+                );
+              },
+            )
+          ],
+        )
       ),
     );
   }

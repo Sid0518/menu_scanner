@@ -1,5 +1,65 @@
 import 'package:menu_scanner/imports.dart';
 
+Future<void> loginUser(
+  BuildContext context, AuthService auth,
+  {bool forceSignIn = false}
+) async {
+    User user = Provider.of<User>(context, listen: false);
+    FirebaseUser firebaseUser = await auth.getUser;
+
+    if (firebaseUser != null) {
+      if(user.firebaseUser == null)
+        user.firebaseUser = firebaseUser;
+
+      bool exists;
+      await Firestore.instance
+        .collection("users")
+        .document(firebaseUser.uid)
+        .get()
+        .then(
+          (snapshot) => (exists = snapshot.exists)
+        );
+
+      if(exists)
+        Navigator.pushReplacement(context, 
+          MaterialPageRoute(
+            builder: (context) =>
+              HomePage()
+          )
+        );
+
+      else {
+        if(forceSignIn) {
+          await auth.signOut();
+          user.signOut();
+          
+          Navigator.pushReplacement(context, 
+            MaterialPageRoute(
+              builder: (context) => 
+                SignInPage()
+            )
+          );
+        }
+
+        else
+          Navigator.pushReplacement(context, 
+            MaterialPageRoute(
+              builder: (context) => 
+                RegistrationForm()
+            )
+          );
+      }
+    }
+
+    else
+      Navigator.pushReplacement(context, 
+        MaterialPageRoute(
+          builder: (context) => 
+            SignInPage()
+        )
+      );
+  }
+
 /*
   Many functions may require us to 'await' them to resolve the Promise/Future
   In such cases, this function can be used to display a loading circle during

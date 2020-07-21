@@ -19,4 +19,8 @@ class User extends ChangeNotifier {
   String get id => this._firebaseUser.uid;
   String get name => this._firebaseUser.displayName;
   String get email => this._firebaseUser.email;
+
+  void signOut() {
+    this._firebaseUser = null;
+  }
 }

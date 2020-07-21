@@ -50,11 +50,13 @@ class FileUploadPage extends StatelessWidget {
               () async {
                 File file = await FilePicker.getFile(
                   // type: FileType.custom, allowedExtensions: ['pdf']
-                  type: FileType.any);
-                return uploadFile(user, file);
+                  type: FileType.any
+                );
+
+                if(file != null)
+                  return await uploadFile(user, file);
               }
-            );
-          
+          );
           /*
             Once the file is uploaded, the URL of the
             newly uploaded file is encoded into a QR Code
@@ -63,18 +65,20 @@ class FileUploadPage extends StatelessWidget {
             (QrImage is part of the qr-flutter package, not 
              available by default in Flutter)
           */
-          showDialog(
-            context: context,
-            builder: (context) =>
-              Dialog(
-                child: Container(
-                  height: 400,
-                  width: 400,
 
-                  child: QrImage(data: url)
-                ),
-              )
-          );
+          if(url != null)
+            showDialog(
+              context: context,
+              builder: (context) =>
+                Dialog(
+                  child: Container(
+                    height: 400,
+                    width: 400,
+
+                    child: QrImage(data: url)
+                  ),
+                )
+            );
         },
       ),
     );

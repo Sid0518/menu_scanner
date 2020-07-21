@@ -15,7 +15,7 @@ void main() {
       ],
 
       child: MaterialApp(
-        home: HomePage(), // HomePage is the page that shows up when the app is opened
+        home: SplashScreen(), // SplashScreen shows up when the app is opened
         
         theme: ThemeData(
           primaryColor: Color.fromRGBO(16, 76, 145, 1),
