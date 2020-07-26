@@ -10,8 +10,6 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
-
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.all(16),

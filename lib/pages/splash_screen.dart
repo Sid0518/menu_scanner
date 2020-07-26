@@ -10,8 +10,7 @@ class _SplashScreenState extends State<SplashScreen> {
   final AuthService auth = AuthService();
 
   Future<void> login(BuildContext context) async {
-    FirebaseUser firebaseUser = await this.auth.getUser;
-    loginUser(context, this.auth, forceSignIn: true);
+    await loginUser(context, this.auth, forceSignIn: true);
   }
 
   @override
