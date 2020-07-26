@@ -22,6 +22,7 @@ class ScannerPage extends StatelessWidget {
       ),
 
       floatingActionButton: FloatingActionButton(
+        tooltip: 'Scan QR Code',
         child: Icon(Icons.camera),
         
         onPressed: () async {

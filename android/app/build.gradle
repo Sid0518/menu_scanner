@@ -42,6 +42,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        checkReleaseBuilds false // TODO: ADDED THIS LINE SO THAT MAYBE FLUTTER WILL BUILD THE DAMN APP (IT DID NOT)
     }
 
     defaultConfig {
@@ -63,6 +64,12 @@ android {
     }
    buildTypes {
        release {
+       //-------------//
+        // TODO: ADDED THIS SECTION SO THAT MAYBE FLUTTER WILL BUILD THE DAMN APP (IT DID NOT)
+            profile {
+                matchingFallbacks = ['debug', 'release']
+            }
+        //-----------//
            signingConfig signingConfigs.release
        }
    }
