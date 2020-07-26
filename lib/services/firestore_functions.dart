@@ -1,4 +1,5 @@
 import 'package:menu_scanner/imports.dart';
+import 'package:path/path.dart' as Path;
 
 Future<void> registerUser({
   String id,
@@ -8,6 +9,19 @@ Future<void> registerUser({
   String city, String pinCode,
   String state,
 }) async {
+  RegExp alphanumericFilter = RegExp(r"[A-Za-z0-9]+");
+  String unformattedSlug = 
+    [restaurantName, addressLine1, addressLine2, city]
+      .join(' ');
+
+  String slug = 
+    alphanumericFilter
+      .allMatches(unformattedSlug)
+      .map((match) => match.group(0))
+      .toList()
+      .join('-')
+      .toLowerCase();
+
   await Firestore.instance
     .collection('users')
     .document(id)
@@ -19,15 +33,17 @@ Future<void> registerUser({
       'addressLine2': addressLine2,
       'city': city,
       'state': state,
-      'pinCode': pinCode
+      'pinCode': pinCode,
+      'slug': slug
     });
 }
 
 Future<String> uploadFile(User user, File file) async {
   // get the location on the server where the file will be uploaded
+  String fileExtension = Path.extension(file.path);
   StorageReference storageReference = FirebaseStorage.instance
     .ref()
-    .child('${user.id}');
+    .child('${user.id}$fileExtension');
 
   // start uploading the file
   StorageUploadTask uploadTask = storageReference
