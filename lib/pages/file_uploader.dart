@@ -17,7 +17,7 @@ class FileUploadPage extends StatelessWidget {
         
         child: Center(
           child: Text(
-            'Tap on the paperclip icon to select a file for upload',
+            'Tap on the paperclip icon to attach your menu file',
             
             style: TextStyle(fontSize: 24),
             maxLines: 4,
@@ -27,6 +27,8 @@ class FileUploadPage extends StatelessWidget {
       ),
 
       floatingActionButton: FloatingActionButton(
+        tooltip: 'Attach Menu',
+
         child: Transform.rotate(
           child: Icon(Icons.attach_file),
           angle: math.pi / 4,
@@ -49,13 +51,14 @@ class FileUploadPage extends StatelessWidget {
               context, 
               () async {
                 File file = await FilePicker.getFile(
-                  // type: FileType.custom, allowedExtensions: ['pdf']
-                  type: FileType.any
+                  type: FileType.custom, allowedExtensions: ['pdf', 'jpg', 'png']
+                  // type: FileType.any
                 );
 
                 if(file != null)
                   return await uploadFile(user, file);
-              }
+              },
+              finishMessage: 'Menu has been uploaded successfully',
           );
           /*
             Once the file is uploaded, the URL of the

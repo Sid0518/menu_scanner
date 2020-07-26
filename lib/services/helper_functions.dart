@@ -65,28 +65,33 @@ Future<void> loginUser(
   In such cases, this function can be used to display a loading circle during
   the 'await'
 */
-Future<dynamic> showLoadingDialog(BuildContext context, Function function) async {
+Future<dynamic> showLoadingDialog(
+  BuildContext context, Function function, {String finishMessage}
+) async {
   BuildContext dialogContext;
 
   //show the loading circle
   showDialog(
     context: context,
     barrierDismissible: false,
-    builder: (BuildContext context) {
-      dialogContext = context;
+    builder: (BuildContext buildContext) {
+      dialogContext = buildContext;
 
-      return AlertDialog(
-        content: Center(
-          child: Container(
-            height: 120, 
-            width: 120, 
-            
-            child: CircularProgressIndicator()
-          )
+      return WillPopScope(
+        onWillPop: () async => false,
+        
+        child: AlertDialog(
+          content: Center(
+            child: SpinKitFoldingCube(
+              color: Colors.white,
+              size: 50.0,
+              duration: Duration(milliseconds: 800),
+            )
+          ),
+
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       );
     }
   );
@@ -96,6 +101,12 @@ Future<dynamic> showLoadingDialog(BuildContext context, Function function) async
 
   // remove the loading circle once the function returns
   Navigator.pop(dialogContext);
+
+  if(finishMessage != null)
+    Scaffold.of(context)
+      .showSnackBar(
+        SnackBar(content: Text(finishMessage))
+      );
 
   // return whatever was returned from the function we called and awaited
   return returnValue;
