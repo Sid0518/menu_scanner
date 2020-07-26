@@ -9,7 +9,7 @@ Future<void> loginUser(
 
     if (firebaseUser != null) {
       if(user.firebaseUser == null)
-        user.firebaseUser = firebaseUser;
+        await user.initialize(firebaseUser);
 
       bool exists;
       await Firestore.instance
@@ -103,11 +103,34 @@ Future<dynamic> showLoadingDialog(
   Navigator.pop(dialogContext);
 
   if(finishMessage != null)
-    Scaffold.of(context)
-      .showSnackBar(
-        SnackBar(content: Text(finishMessage))
-      );
+    if(returnValue != null)
+      Scaffold.of(context)
+        .showSnackBar(
+          SnackBar(content: Text(finishMessage))
+        );
+    // TODO: Add a different snackbar message if the function returned null
 
   // return whatever was returned from the function we called and awaited
   return returnValue;
+}
+
+String createSlug({
+  String restaurantName, 
+  String addressLine1, String addressLine2, 
+  String city
+}) {
+  RegExp alphanumericFilter = RegExp(r"[A-Za-z0-9]+");
+  String unformattedSlug = 
+    [restaurantName, addressLine1, addressLine2, city]
+      .join(' ');
+
+  String slug = 
+    alphanumericFilter
+      .allMatches(unformattedSlug)
+      .map((match) => match.group(0))
+      .toList()
+      .join('-')
+      .toLowerCase();
+  
+  return slug;
 }

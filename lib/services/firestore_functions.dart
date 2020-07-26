@@ -9,18 +9,12 @@ Future<void> registerUser({
   String city, String pinCode,
   String state,
 }) async {
-  RegExp alphanumericFilter = RegExp(r"[A-Za-z0-9]+");
-  String unformattedSlug = 
-    [restaurantName, addressLine1, addressLine2, city]
-      .join(' ');
-
-  String slug = 
-    alphanumericFilter
-      .allMatches(unformattedSlug)
-      .map((match) => match.group(0))
-      .toList()
-      .join('-')
-      .toLowerCase();
+  String slug = createSlug(
+    restaurantName: restaurantName,
+    addressLine1: addressLine1,
+    addressLine2: addressLine2,
+    city: city
+  );
 
   await Firestore.instance
     .collection('users')
@@ -35,7 +29,7 @@ Future<void> registerUser({
       'state': state,
       'pinCode': pinCode,
       'slug': slug
-    });
+    }, merge: true);
 }
 
 Future<String> uploadFile(User user, File file) async {
@@ -62,6 +56,6 @@ Future<String> uploadFile(User user, File file) async {
       'url': url,
     }, merge: true);
 
-  // return the download URL of the newly uploaded file
-  return url;
+  // return the user's restaurant slug
+  return user.getAttribute('slug');
 }

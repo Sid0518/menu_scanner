@@ -46,7 +46,7 @@ class FileUploadPage extends StatelessWidget {
             (FilePicker is part of the file_picker package, not 
              available by default in Flutter)
           */
-          String url = 
+          String slug = 
             await showLoadingDialog(
               context, 
               () async {
@@ -57,6 +57,8 @@ class FileUploadPage extends StatelessWidget {
 
                 if(file != null)
                   return await uploadFile(user, file);
+                else
+                  return null;
               },
               finishMessage: 'Menu has been uploaded successfully',
           );
@@ -69,7 +71,7 @@ class FileUploadPage extends StatelessWidget {
              available by default in Flutter)
           */
 
-          if(url != null)
+          if(slug != null)
             showDialog(
               context: context,
               builder: (context) =>
@@ -78,7 +80,7 @@ class FileUploadPage extends StatelessWidget {
                     height: 400,
                     width: 400,
 
-                    child: QrImage(data: url)
+                    child: QrImage(data: 'https://restaurantthing.com/res/$slug')
                   ),
                 )
             );
