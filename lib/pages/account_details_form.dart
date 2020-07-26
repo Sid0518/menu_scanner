@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:menu_scanner/imports.dart';
 
-class RegistrationForm extends StatefulWidget {
+enum FormMode {Register, Update}
+
+class AccountDetailsForm extends StatefulWidget {
+  @required final FormMode formMode;
+  AccountDetailsForm({this.formMode});
+
   @override
-  _RegistrationFormState createState() => _RegistrationFormState();
+  _AccountDetailsFormState createState() => _AccountDetailsFormState();
 }
 
-class _RegistrationFormState extends State<RegistrationForm> {
+class _AccountDetailsFormState extends State<AccountDetailsForm> {
   final formKey = GlobalKey<FormState>();
 
   String ownerName;
@@ -27,6 +32,22 @@ class _RegistrationFormState extends State<RegistrationForm> {
     
     User user = Provider.of<User>(context, listen: false);
     this.ownerName = user.name;
+
+    if(this.widget.formMode == FormMode.Update)
+      this.initFields(user);
+  }
+
+  void initFields(User user) {
+    this.restaurantName = user.getAttribute('restaurantName');
+    this.contactNo = user.getAttribute('contactNo');
+
+    this.addressLine1 = user.getAttribute('addressLine1');
+    this.addressLine2 = user.getAttribute('addressLine2');
+
+    this.city = user.getAttribute('city');
+    this.pinCode = user.getAttribute('pinCode');
+
+    this.state = user.getAttribute('state');
   }
 
   @override
@@ -35,7 +56,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: Text(
+          this.widget.formMode == FormMode.Register ? 
+            'Register' : 'Account Settings'
+        ),
       ),
 
       body: Form(
@@ -54,7 +78,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   labelText: 'Name of Owner'
                 ),
 
-                initialValue: user.name,
+                initialValue: this.ownerName ?? '',
                 onChanged: (String value) => this.ownerName = value,
               ),
             ),
@@ -67,6 +91,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   labelText: 'Name of Restaurant'
                 ),
 
+                initialValue: this.restaurantName ?? '',
                 onChanged: (String value) => this.restaurantName = value,
               ),
             ),
@@ -79,6 +104,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   labelText: 'Contact No.'
                 ),
 
+                initialValue: this.contactNo ?? '',
                 onChanged: (String value) => this.contactNo = value,
               ),
             ),
@@ -91,6 +117,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   labelText: 'Address Line 1'
                 ),
 
+                initialValue: this.addressLine1 ?? '',
                 onChanged: (String value) => this.addressLine1 = value,
               ),
             ),
@@ -103,6 +130,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   labelText: 'Address Line 2'
                 ),
 
+                initialValue: this.addressLine2 ?? '',
                 onChanged: (String value) => this.addressLine2 = value,
               ),
             ),
@@ -118,6 +146,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'City'
                       ),
 
+                      initialValue: this.city ?? '',
                       onChanged: (String value) => this.city = value,
                     ),
                   ),
@@ -130,6 +159,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                         labelText: 'Pin Code'
                       ),
 
+                      initialValue: this.pinCode ?? '',
                       onChanged: (String value) => this.pinCode = value,
                     ),
                   ),
@@ -138,13 +168,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
             
             ListTile(
-              leading: Icon(Icons.code),
+              leading: Icon(Icons.home),
 
               title: TextFormField(
                 decoration: InputDecoration(
                   labelText: 'State'
                 ),
 
+                initialValue: this.state ?? '',
                 onChanged: (String value) => this.state = value,
               ),
             ),
@@ -168,6 +199,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   city: this.city, pinCode: this.pinCode,
                   state: this.state,
                 );
+
+                user.updateData(
+                  ownerName: this.ownerName, restaurantName: this.restaurantName,
+                  contactNo: this.contactNo,
+                  addressLine1: this.addressLine1, addressLine2: this.addressLine2,
+                  city: this.city, pinCode: this.pinCode,
+                  state: this.state,
+                );
               }
             );
 
@@ -181,5 +220,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
         },
       ),
     );
+  }
+}
+
+class RegistrationForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AccountDetailsForm(formMode: FormMode.Register);
+  }
+}
+
+class UpdateAccountForm extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return AccountDetailsForm(formMode: FormMode.Update);
   }
 }

@@ -95,6 +95,28 @@ with SingleTickerProviderStateMixin {
             ),
             
             ListTile(
+              leading: Icon(Icons.settings),
+              
+              title: Text(
+                'Account Settings',
+                
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+
+              onTap: () async {
+                Navigator.pushReplacement(context, 
+                  MaterialPageRoute(
+                    builder: (context) => 
+                      UpdateAccountForm()
+                  )
+                );
+              },
+            ),
+
+            ListTile(
               leading: Icon(Icons.subdirectory_arrow_left),
               
               title: Text(
