@@ -1,2 +1,2 @@
 # menu_scanner
- Restaurant QR Thingy
+Prototype for the Menu Scanner idea
